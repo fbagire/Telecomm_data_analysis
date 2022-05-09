@@ -5,7 +5,8 @@ import seaborn as sns
 import re
 import warnings
 
-df = pd.read_csv('Week1_challenge_data_source.csv')
+df_original = pd.read_excel('Week1_challenge_data_source.xlsx', dtype={'Bearer Id': str}, engine='openpyxl')
+df = df_original.copy(deep=True)
 
 
 class CleanDataframe:
@@ -33,4 +34,10 @@ class CleanDataframe:
 
         self.df.drop(col_to_drop, axis=1, inplace=True)
 
+        return self.df
+
+    def fix_data_types(self):
+        self.df['Handset Manufacturer'] = self.df['Handset Manufacturer'].astype('str',
+                                                                                 errors='ignore').str.capitalize()
+        self.df['Handset Type'] = self.df['Handset Type'].astype('str', errors='ignore').str.capitalize()
         return self.df
