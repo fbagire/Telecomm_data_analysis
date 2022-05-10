@@ -25,7 +25,7 @@ class CleanDataframe:
         missing_ratio = self.df.isna().sum() / self.df.shape[0]
 
         col_to_drop = missing_ratio[missing_ratio > 0.25].keys()
-
+        col_to_drop.append('Dur. (ms).1')
         self.df.drop(col_to_drop, axis=1, inplace=True)
 
         return self.df
