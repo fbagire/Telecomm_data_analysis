@@ -1,9 +1,5 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib as mpl
-import seaborn as sns
-import re
-import warnings
 
 
 class CleanDataframe:
@@ -21,6 +17,7 @@ class CleanDataframe:
             x = p.get_x() + width + 0.02
             y = p.get_y() + height / 2
             ax.annotate(percentage, (x, y))
+        plt.show()
 
     def drop_unwanted_columns(self):
         # Drop columns which have more than 25% missing values of the total data size
@@ -39,13 +36,32 @@ class CleanDataframe:
         self.df['Handset Type'] = self.df['Handset Type'].astype('str', errors='ignore').str.capitalize()
         return self.df
 
+    def convert_bytes_to_megabytes(self, bytes_data):
+        """
+            This function takes the dataframe and the column which has the bytes values
+            returns the megabytes of that value
+
+            Args:
+            -----
+            self.df: dataframe
+            bytes_data: column with bytes values
+
+            Returns:
+            --------
+            A series
+        """
+        megabyte = 1 * 10e+5
+        self.df[bytes_data] = self.df[bytes_data] / megabyte
+
+        return self.df
+
     def fill_missing_values(self):
         # separating columns based on datatype
         cols_numeric = self.df.columns.difference(['Bearer Id', 'Start', 'End', 'IMSI', 'MSISDN/Number',
                                                    'IMEI', 'Last Location Name',
                                                    'Handset Manufacturer', 'Handset Type']).to_list()
         cols_cat = ['Handset Manufacturer', 'Handset Type']
-        # Filling in missing values using mean value or median value depending on the previous histogram and skeweness
+        # Filling in missing values using mean value or median value depending on the previous histogram and skewness
 
         for col in cols_numeric:
             if self.df[col].skew() >= 1 or self.df[col].skew() <= -1:
@@ -56,9 +72,3 @@ class CleanDataframe:
         self.df[cols_cat] = self.df[cols_cat].fillna('Undefined')
 
         return self.df
-
-# if __name__ == "__main__":
-# df_original = pd.read_excel('Week1_challenge_data_source.xlsx',
-#                             dtype={'Bearer Id': str, 'IMSI': str, 'MSISDN/Number': str, 'IMEI': str,
-#                                    'Handset Manufacturer': str, 'Handset Type': str}, engine='openpyxl')
-# cleaner = CleanDataframe(df_original)
