@@ -5,11 +5,12 @@ import seaborn as sns
 import re
 import warnings
 
-df = pd.read_csv('Week1_challenge_data_source.csv')
+df_original = pd.read_excel('Week1_challenge_data_source.xlsx', dtype={'Bearer Id': str}, engine='openpyxl')
+df = df_original.copy(deep=True)
 
 
 class CleanDataframe:
-    def __init__(self, df):
+    def __init__(self, df: pd.DataFrame):
         self.df = df
 
     def check_missing_values(self):
@@ -34,3 +35,14 @@ class CleanDataframe:
         self.df.drop(col_to_drop, axis=1, inplace=True)
 
         return self.df
+
+    def fix_data_types(self):
+        self.df['Handset Manufacturer'] = self.df['Handset Manufacturer'].astype('str',
+                                                                                 errors='ignore').str.capitalize()
+        self.df['Handset Type'] = self.df['Handset Type'].astype('str', errors='ignore').str.capitalize()
+        return self.df
+
+
+cleaner = CleanDataframe(df)
+
+df.query('`Handset Type`!="Undefined"')['Handset Type'].value_counts()[:10].plot(kind='bar', figsize=(8, 7))
