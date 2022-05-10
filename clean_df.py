@@ -45,4 +45,4 @@ class CleanDataframe:
 
 cleaner = CleanDataframe(df)
 
-df.query('`Handset Type`!="Undefined"')['Handset Type'].value_counts()[:10].plot(kind='bar', figsize=(8, 7))
+
