@@ -25,7 +25,7 @@ class CleanDataframe:
             y = p.get_y() + height / 2
             ax.annotate(percentage, (x, y))
 
-    def remove_missing_values(self):
+    def drop_unwanted_columns(self):
         # Drop columns which have more than 25% missing values of the total data size
 
         missing_ratio = self.df.isna().sum() / self.df.shape[0]
@@ -42,7 +42,23 @@ class CleanDataframe:
         self.df['Handset Type'] = self.df['Handset Type'].astype('str', errors='ignore').str.capitalize()
         return self.df
 
+    def fill_missing_values(self):
+        # separating columns based on datatype
+        cols_numeric = df.columns.difference(['Bearer Id', 'Start', 'End', 'IMSI', 'MSISDN/Number',
+                                              'IMEI', 'Last Location Name',
+                                              'Handset Manufacturer', 'Handset Type']).to_list()
+        cols_cat = ['Handset Manufacturer', 'Handset Type']
+        # Filling in missing values using mean value or median value depending on the previous histogram and skeweness
+
+        for col in cols_numeric:
+            if self.df[col].skew() >= 1 or self.df[col].skew() <= -1:
+                self.df[col] = self.df[col].fillna(self.df[col].median())
+            else:
+                self.df[col] = self.df[col].fillna(self.df[col].median())
+
+        self.df[cols_cat] = self.df[cols_cat].fillna('Undefined')
+
+        return self.df
+
 
 cleaner = CleanDataframe(df)
-
-
