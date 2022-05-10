@@ -5,9 +5,6 @@ import seaborn as sns
 import re
 import warnings
 
-df_original = pd.read_excel('Week1_challenge_data_source.xlsx', dtype={'Bearer Id': str}, engine='openpyxl')
-df = df_original.copy(deep=True)
-
 
 class CleanDataframe:
     def __init__(self, df: pd.DataFrame):
@@ -44,9 +41,9 @@ class CleanDataframe:
 
     def fill_missing_values(self):
         # separating columns based on datatype
-        cols_numeric = df.columns.difference(['Bearer Id', 'Start', 'End', 'IMSI', 'MSISDN/Number',
-                                              'IMEI', 'Last Location Name',
-                                              'Handset Manufacturer', 'Handset Type']).to_list()
+        cols_numeric = self.df.columns.difference(['Bearer Id', 'Start', 'End', 'IMSI', 'MSISDN/Number',
+                                                   'IMEI', 'Last Location Name',
+                                                   'Handset Manufacturer', 'Handset Type']).to_list()
         cols_cat = ['Handset Manufacturer', 'Handset Type']
         # Filling in missing values using mean value or median value depending on the previous histogram and skeweness
 
@@ -60,6 +57,8 @@ class CleanDataframe:
 
         return self.df
 
-
-cleaner = CleanDataframe(df)
-
+# if __name__ == "__main__":
+# df_original = pd.read_excel('Week1_challenge_data_source.xlsx',
+#                             dtype={'Bearer Id': str, 'IMSI': str, 'MSISDN/Number': str, 'IMEI': str,
+#                                    'Handset Manufacturer': str, 'Handset Type': str}, engine='openpyxl')
+# cleaner = CleanDataframe(df_original)
