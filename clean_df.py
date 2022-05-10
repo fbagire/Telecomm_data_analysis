@@ -10,7 +10,7 @@ df = df_original.copy(deep=True)
 
 
 class CleanDataframe:
-    def __init__(self, df):
+    def __init__(self, df: pd.DataFrame):
         self.df = df
 
     def check_missing_values(self):
@@ -41,3 +41,8 @@ class CleanDataframe:
                                                                                  errors='ignore').str.capitalize()
         self.df['Handset Type'] = self.df['Handset Type'].astype('str', errors='ignore').str.capitalize()
         return self.df
+
+
+cleaner = CleanDataframe(df)
+
+df.query('`Handset Type`!="Undefined"')['Handset Type'].value_counts()[:10].plot(kind='bar', figsize=(8, 7))
