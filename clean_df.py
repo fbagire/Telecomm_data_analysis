@@ -62,3 +62,9 @@ class CleanDataframe:
 
 
 cleaner = CleanDataframe(df)
+
+fig, axs = plt.subplots(1, 2, figsize=(15, 8))
+_ = df.query('`Handset Type`!="Undefined"')['Handset Type'].value_counts()[:10].plot(kind='bar', ylabel='count', rot=45,
+                                                                                     ax=axs[0],
+                                                                                     title='Top 10 handsets used by '
+                                                                                           'the customers') 
