@@ -24,7 +24,7 @@ class CleanDataframe:
 
         missing_ratio = self.df.isna().sum() / self.df.shape[0]
 
-        col_to_drop = missing_ratio[missing_ratio > 0.25].keys()
+        col_to_drop = missing_ratio[missing_ratio > 0.25].keys().to_list()
         col_to_drop.append('Dur. (ms).1')
         self.df.drop(col_to_drop, axis=1, inplace=True)
 
@@ -48,26 +48,32 @@ class CleanDataframe:
 
             Returns:
             --------
-            A series
+            A converted original dataframe
         """
         megabyte = 1 * 10e+5
         self.df[bytes_data] = self.df[bytes_data] / megabyte
 
         return self.df
 
-    def fill_missing_values(self):
-        # separating columns based on datatype
-        cols_numeric = self.df.columns.difference(['Bearer Id', 'Start', 'End', 'IMSI', 'MSISDN/Number',
-                                                   'IMEI', 'Last Location Name',
-                                                   'Handset Manufacturer', 'Handset Type']).to_list()
-        cols_cat = ['Handset Manufacturer', 'Handset Type']
-        # Filling in missing values using mean value or median value depending on the previous histogram and skewness
+    def fill_missing_values(self, cols_numeric, cols_cat):
+        """
+        separating columns based on datatype
+        Filling in missing values using mean value or median value depending on the previous histogram and skewness
 
+        parameters
+        ----------
+        cols_numeric: A list of numerical columns
+        cols_cat:    a list of categorical columns
+
+        Returns
+        -------
+        DataFrame
+        """
         for col in cols_numeric:
             if self.df[col].skew() >= 1 or self.df[col].skew() <= -1:
                 self.df[col] = self.df[col].fillna(self.df[col].median())
             else:
-                self.df[col] = self.df[col].fillna(self.df[col].median())
+                self.df[col] = self.df[col].fillna(self.df[col].mean())
 
         self.df[cols_cat] = self.df[cols_cat].fillna('Undefined')
 
