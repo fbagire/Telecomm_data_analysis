@@ -7,6 +7,11 @@ class CleanDataframe:
         self.df = df
 
     def check_missing_values(self):
+        """"
+            This function takes the dataframe and calculate the percentage of missing values in every column
+            returns an horizontal bar plot with columns with many missing values at the top
+        """
+
         # Check the percentage of missing values in every column
         ax = self.df.isna().sum().sort_values().plot(kind='barh', figsize=(9, 12))
         plt.title('Percentage of Missing Values Per Column in XDR data', fontdict={'size': 15})
@@ -57,17 +62,17 @@ class CleanDataframe:
 
     def fill_missing_values(self, cols_numeric, cols_cat):
         """
-        separating columns based on datatype
-        Filling in missing values using mean value or median value depending on the previous histogram and skewness
+            separating columns based on datatype
+            Filling in missing values using mean value or median value depending on the previous histogram and skewness
 
-        parameters
-        ----------
-        cols_numeric: A list of numerical columns
-        cols_cat:    a list of categorical columns
+            parameters
+            ----------
+            cols_numeric: A list of numerical columns
+            cols_cat:    a list of categorical columns
 
-        Returns
-        -------
-        DataFrame
+            Returns
+            -------
+            DataFrame
         """
         for col in cols_numeric:
             if self.df[col].skew() >= 1 or self.df[col].skew() <= -1:
