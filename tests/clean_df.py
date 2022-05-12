@@ -60,7 +60,7 @@ class CleanDataframe:
 
         return self.df
 
-    def fill_missing_values(self, cols_numeric=[], cols_cat=[]):
+    def fill_missing_values(self, cols_numeric, cols_cat):
         """
             separating columns based on datatype
             Filling in missing values using mean value or median value depending on the previous histogram and skewness
