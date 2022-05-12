@@ -8,7 +8,7 @@ from clean_df import CleanDataframe
 
 df = pd.read_excel('Week1_challenge_data_source.xlsx',
                    dtype={'Bearer Id': str, 'IMSI': str, 'MSISDN/Number': str, 'IMEI': str,
-                          'Handset Manufacturer': str, 'Handset Type': str}, engine='openpyxl')
+                          'Handset Manufacturer': str, 'Handset Type': str}, engine='openpyxl', nrows=50)
 
 
 class TestDFCleaner(unittest.TestCase):
@@ -21,3 +21,8 @@ class TestDFCleaner(unittest.TestCase):
         from the unittest module
 
     """
+
+    def __init__(self):
+        self.df = df
+
+    def
