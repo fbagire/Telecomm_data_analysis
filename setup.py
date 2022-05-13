@@ -7,7 +7,7 @@ DESCRIPTION = 'A Package to Clean Telecom Data'
 
 # Setting up
 setup(
-    name='pytelclean',
+    name='cleand_df',
     version=VERSION,
     author='Faith Bagire',
     author_email='faibagire@gmail.com',
