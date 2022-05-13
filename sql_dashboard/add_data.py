@@ -125,17 +125,18 @@ def insert_to_tweet_table(dbName: str, df: pd.DataFrame, table_name: str) -> Non
     df = preprocess_df(df)
 
     for _, row in df.iterrows():
-        sqlQuery = f"""INSERT INTO {table_name} ("Bearer Id","MSISDN/Number","Avg RTT DL (ms)", "Avg RTT UL (ms)",
-        "10 Kbps < UL TP < 50 Kbps (%)","250 Kbps < DL TP < 1 Mbps (%)","50 Kbps < DL TP < 250 Kbps (%)",
-        "Activity Duration DL (ms)","Activity Duration UL (ms)","Avg Bearer TP DL (kbps)","Avg Bearer TP UL (kbps)",
-        "DL TP < 50 Kbps (%)","DL TP > 1 Mbps (%)","Dur. (s)","Email DL (Bytes)","Email Total (megabytes)",
-        "Email UL (Bytes)","Gaming DL (Bytes)","Gaming Total (megabytes)","Gaming UL (Bytes)","Google DL (Bytes)",
-        "Google Total (megabytes)","Google UL (Bytes)","Handset Manufacturer","Handset Type","Nb of sec with Vol DL < 6250B",
-        "Nb of sec with Vol UL < 1250B","Netflix DL (Bytes)","Netflix Total (megabytes)","Netflix UL (Bytes)",
-        "Other DL (Bytes)", "Other Total (megabytes)", "Other UL (Bytes)","Social Media DL (Bytes)", "Social Media Total (megabytes)",
-        "Social Media UL (Bytes)","Total DL (Bytes)","Total Data (megabytes)","Total UL (Bytes)","UL TP < 10 Kbps (%)",
-        "Youtube DL (Bytes)","Youtube Total (megabytes)","Youtube UL (Bytes)")
-             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+        sqlQuery = f"""INSERT INTO {table_name} (`Bearer Id`,`MSISDN/Number`,`Avg RTT DL (ms)`, `Avg RTT UL (ms)`,
+        `10 Kbps < UL TP < 50 Kbps (%)`,`250 Kbps < DL TP < 1 Mbps (%)`,`50 Kbps < DL TP < 250 Kbps (%)`,
+        `Activity Duration DL (ms)`,`Activity Duration UL (ms)`,`Avg Bearer TP DL (kbps)`,`Avg Bearer TP UL (kbps)`,
+        `DL TP < 50 Kbps (%)`,`DL TP > 1 Mbps (%)`,`Dur. (s)`,`Email DL (Bytes)`,`Email Total (megabytes)`,
+        `Email UL (Bytes)`,`Gaming DL (Bytes)`,`Gaming Total (megabytes)`,`Gaming UL (Bytes)`,`Google DL (Bytes)`,
+        `Google Total (megabytes)`,`Google UL (Bytes)`,`Handset Manufacturer`,`Handset Type`,
+        `Nb of sec with Vol DL < 6250B`,`Nb of sec with Vol UL < 1250B`,`Netflix DL (Bytes)`,`Netflix Total (megabytes)`,
+        `Netflix UL (Bytes)`,`Other DL (Bytes)`, `Other Total (megabytes)`,`Other UL (Bytes)`,`Social Media DL (Bytes)`,
+         `Social Media Total (megabytes)`,`Social Media UL (Bytes)`,`Total DL (Bytes)`,`Total Data (megabytes)`,
+         `Total UL (Bytes)`,`UL TP < 10 Kbps (%)`,`Youtube DL (Bytes)`,`Youtube Total (megabytes)`,`Youtube UL (Bytes)`)
+             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s,
+              %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
         data = (row[0], row[1], row[2], row[3], (row[4]), (row[5]), row[6], row[7], row[8], row[9], row[10], row[11],
                 row[12], row[13], row[14], row[15], row[16], row[17], row[18], row[19], row[20], row[21], row[22],
                 row[23], row[24], row[25], row[26], row[27], row[28], row[29], row[30], row[31], row[32], row[33],
