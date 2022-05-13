@@ -60,7 +60,7 @@ class CleanDataframe:
 
         return self.df
 
-    def fill_missing_values(self, cols_numeric=[], cols_cat=[]):
+    def fill_missing_values(self, cols_numeric=None, cols_cat=None):
         """
             separating columns based on datatype
             Filling in missing values using mean value or median value depending on the previous histogram and skewness
@@ -74,6 +74,10 @@ class CleanDataframe:
             -------
             DataFrame
         """
+        if cols_cat is None:
+            cols_cat = []
+        if cols_numeric is None:
+            cols_numeric = []
         for col in cols_numeric:
             if self.df[col].skew() >= 1 or self.df[col].skew() <= -1:
                 self.df[col] = self.df[col].fillna(self.df[col].median())
