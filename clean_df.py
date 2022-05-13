@@ -87,13 +87,3 @@ class CleanDataframe:
         self.df[cols_cat] = self.df[cols_cat].fillna('Undefined')
 
         return self.df
-
-
-def make_clusters_summary(df, cluster):
-    df_dict = {}
-    for n_cluster in range(0, len(cluster.cluster_centers_)):
-        cluster_elements = (cluster.labels_ == n_cluster)
-
-        df_use = df[cluster_elements]
-        df_dict['cluster ' + str(n_cluster)] = df_use
-    return df_dict
