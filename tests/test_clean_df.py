@@ -23,6 +23,15 @@ class TestDFCleaner(unittest.TestCase):
     """
 
     def __init__(self):
-        self.df = df
+        self.df = CleanDataframe(df)
 
-    # def
+    def test_drop_unwanted_columns(self):
+        self.assertEqual(len(self.df.drop_unwanted_columns().columns), 44)
+
+    def test_fix_datatypes(self):
+        self.assertEqual(self.df.fix_data_types()['Handset Manufacturer'][:7],
+                         ['Samsung', 'Samsung', 'Samsung', 'Undefined', 'Samsung', 'Undefined', 'Huawei'])
+
+
+if __name__ == '__main__':
+    unittest.main()
