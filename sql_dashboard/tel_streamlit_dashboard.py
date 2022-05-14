@@ -15,27 +15,24 @@ st.markdown("<h1 style='text-align: center; color: grey;'>TellCo Analysis Dashbo
 
 st.markdown("<h3 style='text-align: center; color: white;'> by Faith Bagire </h3>", unsafe_allow_html=True)
 
+conn = mysql.connect(host='localhost', user='root', password='my_pass', database='tweets', buffered=True)
+cursor = conn.cursor()
 
-# conn = mysql.connect(host='localhost', user='root', password='my_pass', database='tweets', buffered=True)
-# cursor = conn.cursor()
-
-# query = '''SELECT * FROM telcomdata'''
+query = '''SELECT * FROM telcomdata'''
 
 
 @st.cache
-def read_data(df_path: str) -> pd.DataFrame:
+def read_data(query, conn) -> pd.DataFrame:
     """"
         cached function to read the data since xlsx file takes too long to read
         :rtype: Dataframe
     """
-    # df = sqlio.read_sql_query(query, conn)
+    df = sqlio.read_sql_query(query, conn)
 
-    df = pd.read_excel(df_path, dtype={'Bearer Id': str, 'IMSI': str, 'MSISDN/Number': str, 'IMEI': str,
-                                       'Handset Manufacturer': str, 'Handset Type': str}, engine='openpyxl')
     return df
 
 
-df = read_data("Week1_challenge_data_cleaned.xlsx")
+df = read_data(query, conn)
 
 hand_type = pd.DataFrame(df.query('`Handset Type`!="Undefined"')['Handset Type'].value_counts()[:10])
 hand_manfact = pd.DataFrame(df.query('`Handset Manufacturer`!="Undefined"')['Handset Manufacturer'].value_counts()[:3])
@@ -77,3 +74,13 @@ with col2:
     st.write('Top 5 handset types from top 3 manufacturers')
     st.dataframe(tophandset.rename(columns={'Handset Type': 'Number of Handsets'})
                  )
+
+# ---- HIDE STREAMLIT STYLE ----
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
