@@ -1,7 +1,6 @@
 import os
 import pandas as pd
 import mysql.connector as mysql
-from mysql.connector import Error
 
 
 def DBConnect(dbName=None):
@@ -13,7 +12,7 @@ def DBConnect(dbName=None):
     Returns
     -------
     """
-    conn = mysql.connect(host='localhost', user='root', password='fefe@888',
+    conn = mysql.connect(host='localhost', user='root', password='my_pass',
                          database=dbName, buffered=True)
     cur = conn.cursor()
     return conn, cur
@@ -80,13 +79,12 @@ def preprocess_df(df: pd.DataFrame) -> pd.DataFrame:
     """
     Parameters
     ----------
-    df :
-        pd.DataFrame:
-    df :
-        pd.DataFrame:
-    df:pd.DataFrame :
+    df :pd.DataFrame:
+
     Returns
     -------
+    df:pd.DataFrame:
+
     """
     cols_2_drop = ['IMSI', 'IMEI', 'Start', 'Start ms', 'End', 'End ms', 'Last Location Name', 'Dur. (ms).1',
                    'UL TP > 300 Kbps (%)', '50 Kbps < UL TP < 300 Kbps (%)']
