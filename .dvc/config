@@ -1,3 +1,4 @@
+"":
 [core]
     remote = dvc-remote
 ['remote "dvc-remote"']
